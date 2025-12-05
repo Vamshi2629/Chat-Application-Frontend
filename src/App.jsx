@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authStore';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import VerifyOTP from './pages/VerifyOTP';
 import Chat from './pages/Chat';
 import FriendsList from './pages/FriendsList';
+import Profile from './pages/Profile';
 import Layout from './components/Layout';
 import { Loader2 } from 'lucide-react';
 
@@ -43,27 +45,38 @@ const App = () => {
     }
 
     return (
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/verify-otp" element={<VerifyOTP />} />
-            <Route
-                path="/"
-                element={
-                    <ProtectedRoute>
-                        <Chat />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/friends"
-                element={
-                    <ProtectedRoute>
-                        <FriendsList />
-                    </ProtectedRoute>
-                }
-            />
-        </Routes>
+        <>
+            <Toaster position="top-right" />
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/verify-otp" element={<VerifyOTP />} />
+                <Route
+                    path="/"
+                    element={
+                        <ProtectedRoute>
+                            <Chat />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/friends"
+                    element={
+                        <ProtectedRoute>
+                            <FriendsList />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    }
+                />
+            </Routes>
+        </>
     );
 };
 

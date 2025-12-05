@@ -6,8 +6,15 @@ class SocketService {
     socket = null;
 
     connect(token) {
+        if (this.socket?.connected) {
+            return this.socket;
+        }
+
         this.socket = io(SOCKET_URL, {
-            auth: { token }
+            auth: { token },
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionAttempts: 5
         });
 
         this.socket.on('connect', () => {
@@ -18,6 +25,10 @@ class SocketService {
             console.error('Socket connection error:', error.message);
         });
 
+        this.socket.on('disconnect', (reason) => {
+            console.log('Socket disconnected:', reason);
+        });
+
         return this.socket;
     }
 
@@ -26,6 +37,10 @@ class SocketService {
             this.socket.disconnect();
             this.socket = null;
         }
+    }
+
+    isConnected() {
+        return this.socket?.connected || false;
     }
 
     joinRoom(channelId) {
@@ -46,6 +61,20 @@ class SocketService {
         }
     }
 
+    // Notify that message was delivered (received by client)
+    messageDelivered(channelId, messageId, senderId) {
+        if (this.socket) {
+            this.socket.emit('message_delivered', { channelId, messageId, senderId });
+        }
+    }
+
+    // Notify that message was read (seen by user)
+    messageRead(channelId, messageId, senderId) {
+        if (this.socket) {
+            this.socket.emit('message_read', { channelId, messageId, senderId });
+        }
+    }
+
     startTyping(channelId) {
         if (this.socket) {
             this.socket.emit('typing_start', channelId);
@@ -58,27 +87,10 @@ class SocketService {
         }
     }
 
+    // Deprecated - use messageRead instead
     markAsRead(channelId, messageId) {
         if (this.socket) {
             this.socket.emit('read_message', { channelId, messageId });
-        }
-    }
-
-    onMessage(callback) {
-        if (this.socket) {
-            this.socket.on('message_received', callback);
-        }
-    }
-
-    onTyping(callback) {
-        if (this.socket) {
-            this.socket.on('user_typing', callback);
-        }
-    }
-
-    onReadReceipt(callback) {
-        if (this.socket) {
-            this.socket.on('read_receipt_update', callback);
         }
     }
 }

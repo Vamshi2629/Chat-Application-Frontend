@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import socketService from '../services/socketService';
 
 const API_URL = 'http://localhost:5000/api/auth';
 
@@ -28,6 +29,7 @@ export const useAuthStore = create((set) => ({
             const response = await axios.post(`${API_URL}/verify-otp`, { email, otp });
             const { token, user } = response.data;
             localStorage.setItem('token', token);
+            localStorage.setItem('userId', user.id);
             set({ user, token, isAuthenticated: true, isLoading: false });
             return response.data;
         } catch (error) {
@@ -42,6 +44,7 @@ export const useAuthStore = create((set) => ({
             const response = await axios.post(`${API_URL}/login`, { email, password });
             const { token, user } = response.data;
             localStorage.setItem('token', token);
+            localStorage.setItem('userId', user.id);
             set({ user, token, isAuthenticated: true, isLoading: false });
         } catch (error) {
             set({ isLoading: false, error: error.response?.data?.message || 'Login failed' });
@@ -50,7 +53,10 @@ export const useAuthStore = create((set) => ({
     },
 
     logout: () => {
+        // Disconnect socket on logout
+        socketService.disconnect();
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
         set({ user: null, token: null, isAuthenticated: false });
     },
 
@@ -62,9 +68,12 @@ export const useAuthStore = create((set) => ({
             const response = await axios.get(`${API_URL}/me`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            set({ user: response.data.user, isAuthenticated: true });
+            const user = response.data.user;
+            localStorage.setItem('userId', user.id);
+            set({ user, isAuthenticated: true });
         } catch (error) {
             localStorage.removeItem('token');
+            localStorage.removeItem('userId');
             set({ user: null, token: null, isAuthenticated: false });
         }
     },
