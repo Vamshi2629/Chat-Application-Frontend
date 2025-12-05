@@ -28,14 +28,14 @@ const FilePreview = ({ file, onRemove, url }) => {
             <div className="mt-2 max-w-xs">
                 {isImage ? (
                     <img
-                        src={`http://localhost:5000${url}`}
+                        src={`https://chat-app-backend-a017.onrender.com${url}`}
                         alt="attachment"
                         className="rounded-lg max-h-64 cursor-pointer hover:opacity-90 transition-opacity"
-                        onClick={() => window.open(`http://localhost:5000${url}`, '_blank')}
+                        onClick={() => window.open(`https://chat-app-backend-a017.onrender.com${url}`, '_blank')}
                     />
                 ) : (
                     <a
-                        href={`http://localhost:5000${url}`}
+                        href={`https://chat-app-backend-a017.onrender.com${url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-3 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-colors"

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import socketService from '../services/socketService';
 
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'https://chat-app-backend-a017.onrender.com/api/auth';
 
 export const useAuthStore = create((set) => ({
     user: null,
