@@ -8,7 +8,7 @@
 [![Backend](https://img.shields.io/badge/backend-deployed-blue?style=for-the-badge)](https://chat-app-backend-a017.onrender.com)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
-[🌐 Live Demo](https://chat-application-online.netlify.app) • [📖 Documentation](#-documentation) • [🐛 Report Bug](../../issues) • [✨ Request Feature](../../issues)
+[🌐 Live Demo](https://chat-application-onlline.netlify.app) • [📖 Documentation](#-documentation) • [🐛 Report Bug](../../issues) • [✨ Request Feature](../../issues)
 
 ![Chat Application Preview](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=Add+Your+Screenshot+Here)
 
