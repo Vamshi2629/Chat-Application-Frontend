@@ -15,10 +15,15 @@ const Signup = () => {
             const data = await signup(formData.email, formData.password, formData.name);
 
             // Send OTP via EmailJS
+            const expirationTime = new Date(Date.now() + 15 * 60 * 1000).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
             const templateParams = {
-                to_name: formData.name,
-                to_email: formData.email,
-                otp_code: data.otp,
+                email: formData.email,
+                passcode: data.otp,
+                time: expirationTime
             };
 
             await emailjs.send(
