@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import socketService from '../services/socketService';
 
-const API_URL = 'https://chat-app-backend-a017.onrender.com/api/auth';
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://chat-app-backend-a017.onrender.com'}/api/auth`;
 
 export const useAuthStore = create((set) => ({
     user: null,

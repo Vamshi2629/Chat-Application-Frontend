@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_API_URL || 'https://chat-app-backend-a017.onrender.com'}/api`;
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://chat-application-backend-300h.onrender.com'}/api`;
 
 const api = axios.create({
     baseURL: API_URL,
