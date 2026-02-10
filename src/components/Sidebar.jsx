@@ -113,9 +113,9 @@ const Sidebar = ({ user, onLogout, onCloseSidebar }) => {
                                 )}
                             </div>
                         </Link>
-                        <div className="hidden sm:block">
-                            <h3 className="font-semibold text-white truncate max-w-[120px]">{user?.name}</h3>
-                            <p className="text-xs text-gray-400 truncate max-w-[120px]">{user?.status || user?.email}</p>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-white truncate max-w-[150px]">{user?.name}</h3>
+                            <p className="text-xs text-gray-400 truncate max-w-[150px]">{user?.status || user?.email}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
