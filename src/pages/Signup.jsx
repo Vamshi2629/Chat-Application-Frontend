@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Signup = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -11,10 +12,25 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await signup(formData.email, formData.password, formData.name);
+            const data = await signup(formData.email, formData.password, formData.name);
+
+            // Send OTP via EmailJS
+            const templateParams = {
+                to_name: formData.name,
+                to_email: formData.email,
+                otp_code: data.otp,
+            };
+
+            await emailjs.send(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                templateParams,
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+            );
+
             navigate('/verify-otp', { state: { email: formData.email } });
         } catch (err) {
-            // Error handled in store
+            console.error('Signup/Email error:', err);
         }
     };
 
